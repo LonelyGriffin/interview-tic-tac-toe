@@ -1,13 +1,14 @@
+import "./styles.css";
 import { StrictMode } from "react";
-import * as ReactDOMClient from "react-dom/client";
+import { render } from "react-dom";
 
 import App from "./components/App";
 
 const rootElement = document.getElementById("root");
-const root = ReactDOMClient.createRoot(rootElement);
 
-root.render(
+render(
   <StrictMode>
     <App />
-  </StrictMode>
+  </StrictMode>,
+  rootElement
 );

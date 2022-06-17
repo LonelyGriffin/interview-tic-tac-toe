@@ -1,1 +1,1 @@
-export const CELL_SIZE = 100; // px
+export const CELL_SIZE = 50; // px

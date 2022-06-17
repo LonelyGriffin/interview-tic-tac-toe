@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux";
-import { newRect, Rect } from "../utils/rect";
-import { RootState, setCamera } from "../store/reducer";
+import { newRect } from "../utils/rect";
+import { setCamera } from "../store/reducer";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { newVector, Vector } from "../utils/vector";
+import { newVector } from "../utils/vector";
 
 export const SyncCameraWithWindow = () => {
   const dispatch = useDispatch();

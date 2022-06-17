@@ -4,7 +4,7 @@ import { newVector, Vector } from "../utils/vector";
 
 export enum MoveType {
   Cross,
-  Zero
+  Zero,
 }
 
 export type RootState = {
@@ -19,8 +19,8 @@ const initialRootState: RootState = {
   camera: newRect(),
   lastMove: {
     type: MoveType.Zero,
-    position: newVector()
-  }
+    position: newVector(5, 5),
+  },
 };
 
 export const setCamera = createAction<Rect>("SET_CAMERA");
@@ -29,7 +29,7 @@ export const rootReducer = createReducer(initialRootState, {
   [setCamera.type]: (state: RootState, action: PayloadAction<Rect>) => {
     return {
       ...state,
-      camera: action.payload
+      camera: action.payload,
     };
-  }
+  },
 });
