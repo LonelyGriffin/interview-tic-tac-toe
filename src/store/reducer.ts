@@ -1,5 +1,5 @@
 import { createAction, createReducer, PayloadAction } from "@reduxjs/toolkit";
-import { newRect, Rect } from "../utils/rect";
+import { VIEWPORT_SIZE } from "../constants";
 import { newVector, Vector } from "../utils/vector";
 
 export enum MoveType {
@@ -8,7 +8,7 @@ export enum MoveType {
 }
 
 export type RootState = {
-  camera: Rect;
+  cameraPosition: Vector;
   lastMove: {
     type: MoveType;
     position: Vector;
@@ -16,20 +16,36 @@ export type RootState = {
 };
 
 const initialRootState: RootState = {
-  camera: newRect(),
+  cameraPosition: newVector(),
   lastMove: {
     type: MoveType.Zero,
-    position: newVector(5, 5),
+    position: newVector(
+      Math.floor(VIEWPORT_SIZE / 2),
+      Math.floor(VIEWPORT_SIZE / 2)
+    ),
   },
 };
 
-export const setCamera = createAction<Rect>("SET_CAMERA");
+export const setCameraPos = createAction<Vector>("SET_CAMERA_POS");
+export const clickCell = createAction<Vector>("MOVE");
 
 export const rootReducer = createReducer(initialRootState, {
-  [setCamera.type]: (state: RootState, action: PayloadAction<Rect>) => {
+  [setCameraPos.type]: (state: RootState, action: PayloadAction<Vector>) => {
     return {
       ...state,
-      camera: action.payload,
+      cameraPosition: action.payload,
+    };
+  },
+  [clickCell.type]: (state: RootState, action: PayloadAction<Vector>) => {
+    return {
+      ...state,
+      lastMove: {
+        position: action.payload,
+        type:
+          state.lastMove.type === MoveType.Cross
+            ? MoveType.Zero
+            : MoveType.Cross,
+      },
     };
   },
 });

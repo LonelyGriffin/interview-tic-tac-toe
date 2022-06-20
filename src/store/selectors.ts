@@ -1,9 +1,9 @@
-import { CELL_SIZE } from "../constants";
+import { CELL_SIZE, VIEWPORT_SIZE } from "../constants";
 import { newRect, Rect } from "../utils/rect";
-import { isEqualVectors, mapVector, Vector } from "../utils/vector";
+import { isEqualVectors, mapVector, newVector, Vector } from "../utils/vector";
 import { RootState, MoveType } from "./reducer";
 
-export const selectCamera = (state: RootState) => state.camera;
+export const selectCameraPosition = (state: RootState) => state.cameraPosition;
 export const selectLastMove = (state: RootState) => state.lastMove;
 
 export const selectMoveInCell =
@@ -22,10 +22,12 @@ export const selectWinner = (state: RootState): MoveType | undefined =>
   undefined;
 
 export function selectVisibleCellsRange(state: RootState): Rect {
-  const { camera } = state;
+  const { cameraPosition } = state;
+
+  const leftTop = mapVector(cameraPosition, (n) => Math.floor(n / CELL_SIZE));
 
   return newRect(
-    mapVector(camera.position, (n) => Math.floor(n / CELL_SIZE)),
-    mapVector(camera.size, (n) => Math.ceil(n / CELL_SIZE))
+    leftTop,
+    newVector(leftTop.x + VIEWPORT_SIZE + 1, leftTop.y + VIEWPORT_SIZE + 1)
   );
 }
